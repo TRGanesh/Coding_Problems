@@ -30,7 +30,8 @@ Alternatively, we can replace the second 'F' to make answerKey = "TTFTTTTT".
 In both cases, there are five consecutive 'T's.
 '''
 
-# BRUTE - TLE
+# Method 1
+# BRUTE - TLE  - O(n^2)
 '''
 - Let's consider each position in the string as the starting point of a potential segment/subString of consecutive 'T's or 'F's
 - We have to try for both possibilities,, To Maximize T's & To Maximize F's
@@ -67,38 +68,112 @@ class Solution:
                     maxConsecutiveF = max( maxConsecutiveF, subStr_len )
         
         return max(maxConsecutiveF, maxConsecutiveT)
+# ----------------------------------------------------------------------------------------
+# Method 2 
+# SLIDING WINDOW - TC : O(n)
+'''
+- In Brute Force,, One time we tried for Maximizing T's & Other time for F's
+- In Similar Fashion, We do Repeat Sliding Window for 2 times
+'''
+class Solution:
+    def maxConsecutiveAnswers(self, answerKey: str, k: int) -> int:
         
+        n = len(answerKey)
+        
+        maxConsecutiveT = 0
+        maxConsecutiveF = 0
 
+        # Trying to Maximize T's
+        # If Adding Char is F,,then increment count_F
+        left, right = 0, 0 
+        count_F = 0
+        while right < n:
+            
+            if answerKey[right] == 'F':
+                count_F += 1
+            
+            while count_F > k:
+                # We have to Shrink the Window
+                if answerKey[left] == 'F':
+                    count_F -= 1
+                left += 1
 
+            if count_F <= k:
+                    subStr_len = right - left + 1
+                    maxConsecutiveT = max( maxConsecutiveT, subStr_len ) 
+            
+            right += 1
+        
+        # Trying to Maximize F's
+        # If Adding Char is T,,then increment count_T
+        left, right = 0, 0 
+        count_T = 0
+        while right < n:
+            
+            if answerKey[right] == 'T':
+                count_T += 1
+            
+            while count_T > k:
+                # We have to Shrink the Window
+                if answerKey[left] == 'T':
+                    count_T -= 1
+                left += 1 
+            
+            if count_T <= k:
+                    subStr_len = right - left + 1
+                    maxConsecutiveF = max( maxConsecutiveF, subStr_len )
+            
+            right += 1
 
+        return max(maxConsecutiveF, maxConsecutiveT)
+# ----------------------------------------------------------------------------------------
+# Method 3 - Using Helper Function
+# Soo, why to write 2 same Blocks of code twice !!
 
+class Solution:
+    def maxConsecutiveAnswers(self, answerKey: str, k: int) -> int:
+        def maxConsecutiveChar(answerKey, char):
+            n = len(answerKey)
+            left, right = 0, 0 
+            max_len = 0
 
+            # If Current Char is T,,then we have to Count for F & If Current Char is F,,then we have to Count for T
+            if char == 'T':
+                opposite_char = 'F'
+            else:
+                opposite_char = 'T'
+            
+            # opposite_char = 'F' if char == 'T' else 'T'
 
+            oppositeChar_count = 0 # Stores count of Opposite Char in Window
+            while right < n:
+                # Add Right Pointer into Window
+                if answerKey[right] == opposite_char:
+                    oppositeChar_count += 1
+                
+                # Shrinking Window
+                while oppositeChar_count > k:
+                    if answerKey[left] == opposite_char:
+                        oppositeChar_count -= 1
+                    left += 1
+                
+                if oppositeChar_count <= k:
+                    max_len = max( max_len, right - left + 1 )
 
+                right += 1 
+            return max_len
 
+        return max(maxConsecutiveChar(answerKey,'F'), maxConsecutiveChar(answerKey,'T'))
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+# Final Thoughts:
+'''
+- OfCourse as this problem belongs to SubStrings(consecutive chars of a string),, we should try for All SubStrings(Brute Force)
+- Here for a Char,, there are 2 Possibilities which we can do
+    - If Char is T, change to F & Inverse
+- So, We have to give equal importance to each T & F
+- Due to that we have written the same code for both of them & at last compared
+- In Method 3, we used Helper function that also Generalized(works for both T & F)
+'''
 
 
 
