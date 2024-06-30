@@ -106,7 +106,7 @@ class Solution:
         
         # Trying to Maximize F's
         # If Adding Char is T,,then increment count_T
-        left, right = 0, 0 
+        left, right = 0, 0  # Re-Initializing Left & Right is compulsory
         count_T = 0
         while right < n:
             
