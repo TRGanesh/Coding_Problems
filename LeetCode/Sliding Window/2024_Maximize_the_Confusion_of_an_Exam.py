@@ -88,16 +88,18 @@ class Solution:
         left, right = 0, 0 
         count_F = 0
         while right < n:
-            
+            # Expanding Window
             if answerKey[right] == 'F':
                 count_F += 1
-            
+
+            # Shrinking Window
             while count_F > k:
                 # We have to Shrink the Window
                 if answerKey[left] == 'F':
                     count_F -= 1
                 left += 1
 
+            # Updating the Max
             if count_F <= k:
                     subStr_len = right - left + 1
                     maxConsecutiveT = max( maxConsecutiveT, subStr_len ) 
@@ -109,16 +111,18 @@ class Solution:
         left, right = 0, 0  # Re-Initializing Left & Right is compulsory
         count_T = 0
         while right < n:
-            
+            # Expanding Window
             if answerKey[right] == 'T':
                 count_T += 1
-            
+
+            # Shrinking Window
             while count_T > k:
                 # We have to Shrink the Window
                 if answerKey[left] == 'T':
                     count_T -= 1
                 left += 1 
-            
+
+            # Updating the Max
             if count_T <= k:
                     subStr_len = right - left + 1
                     maxConsecutiveF = max( maxConsecutiveF, subStr_len )
@@ -156,7 +160,8 @@ class Solution:
                     if answerKey[left] == opposite_char:
                         oppositeChar_count -= 1
                     left += 1
-                
+
+                # Updating the Max
                 if oppositeChar_count <= k:
                     max_len = max( max_len, right - left + 1 )
 
