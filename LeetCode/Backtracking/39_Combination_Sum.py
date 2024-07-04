@@ -25,6 +25,7 @@ Input: candidates = [2], target = 1
 Output: []
 '''
 # Method 1 - Involves Sorting
+
 class Solution:
     def backtrack(self, n, candidates, res, cur_comb, idx, target, cur_sum):
         # Base Case: If Current Combination's Sum is equals to Target,, then we got a suitable Combination
@@ -67,3 +68,46 @@ class Solution:
         cur_sum = 0
         self.backtrack(n, candidates, res, cur_comb, start_idx, target, cur_sum)
         return res
+
+# -----------------------------------------------------------------------------------------
+
+# Method 2 - No Need of Sorting
+
+class Solution:
+    def backtrack(self, n, candidates, res, cur_comb, cur_sum, target, idx):
+        # Base Case
+        if cur_sum == target:
+            res.append(cur_comb[::])
+            return
+        # As we are taking Same Element Multiple Times,, Cur_Sum Will exceed Target many times
+        if cur_sum > target:
+            return
+
+        for i in range(idx, n):
+            # Take
+            cur_sum = cur_sum + candidates[i]
+            cur_comb.append(candidates[i])
+
+            # Recursively Call with Same Ele
+            self.backtrack(n, candidates, res, cur_comb, cur_sum, target, i)
+
+            # BackTrack
+            cur_sum = cur_sum - candidates[i]
+            cur_comb.pop()
+
+
+    def combinationSum(self, candidates: List[int], target: int) -> List[List[int]]:
+        n = len(candidates)
+        res = []
+        cur_comb = []
+        cur_sum = 0
+        start_idx = 0
+        self.backtrack(n, candidates, res, cur_comb, cur_sum, target, start_idx)
+        return res
+
+# -----------------------------------------------------------------------------------------
+
+# Method 3: 
+# Many Parameters are Static in Recursive Calls
+# Let's use OOPS to make them Global
+
