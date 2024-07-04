@@ -24,9 +24,45 @@ Example 3:
 Input: candidates = [2], target = 1
 Output: []
 '''
+
+# Simple & Clean Code
+class Solution:
+    def combinationSum(self, candidates: List[int], target: int) -> List[List[int]]:
+        def backtrack(cur_comb, idx, target):
+            if target == 0:
+                res.append(cur_comb[::])
+                return
+            if target < 0:
+                return
+            
+            for i in range(idx, n):
+                cur_comb.append(candidates[i])
+                backtrack(cur_comb, i, target - candidates[i])
+                cur_comb.pop()
+        
+        n = len(candidates)
+        res = []
+        backtrack([], 0, target)
+        return res
+
+# -------------------------------------------------------------------------------------------------------------
+
 # Method 1 - Involves Sorting
 
 class Solution:
+    def combinationSum(self, candidates: List[int], target: int) -> List[List[int]]:
+        n = len(candidates)
+
+        # Sorting the Given Array
+        candidates.sort()
+
+        res = []
+        cur_comb = []
+        start_idx = 0
+        cur_sum = 0
+        self.backtrack(n, candidates, res, cur_comb, start_idx, target, cur_sum)
+        return res
+        
     def backtrack(self, n, candidates, res, cur_comb, idx, target, cur_sum):
         # Base Case: If Current Combination's Sum is equals to Target,, then we got a suitable Combination
         if cur_sum == target:
@@ -56,24 +92,20 @@ class Solution:
             cur_comb.pop()
             cur_sum = cur_sum - candidates[i] 
 
-    def combinationSum(self, candidates: List[int], target: int) -> List[List[int]]:
-        n = len(candidates)
-
-        # Sorting the Given Array
-        candidates.sort()
-
-        res = []
-        cur_comb = []
-        start_idx = 0
-        cur_sum = 0
-        self.backtrack(n, candidates, res, cur_comb, start_idx, target, cur_sum)
-        return res
-
 # -----------------------------------------------------------------------------------------
 
 # Method 2 - No Need of Sorting
 
 class Solution:
+    def combinationSum(self, candidates: List[int], target: int) -> List[List[int]]:
+        n = len(candidates)
+        res = []
+        cur_comb = []
+        cur_sum = 0
+        start_idx = 0
+        self.backtrack(n, candidates, res, cur_comb, cur_sum, target, start_idx)
+        return res
+    
     def backtrack(self, n, candidates, res, cur_comb, cur_sum, target, idx):
         # Base Case
         if cur_sum == target:
@@ -95,19 +127,57 @@ class Solution:
             cur_sum = cur_sum - candidates[i]
             cur_comb.pop()
 
-
-    def combinationSum(self, candidates: List[int], target: int) -> List[List[int]]:
-        n = len(candidates)
-        res = []
-        cur_comb = []
-        cur_sum = 0
-        start_idx = 0
-        self.backtrack(n, candidates, res, cur_comb, cur_sum, target, start_idx)
-        return res
-
 # -----------------------------------------------------------------------------------------
 
-# Method 3: 
+# Method 3: ******** May be SomeWhat Confusing If you don't know Object-Oriented Programming in Python **********
 # Many Parameters are Static in Recursive Calls
 # Let's use OOPS to make them Global
 
+class Solution:
+    def __init__(self):
+        self.n = 0
+        self.target = 0
+        self.res = []
+        self.candidates = []
+
+    def combinationSum(self, candidates: List[int], target: int) -> List[List[int]]:
+        self.candidates = candidates
+        self.n = len(candidates)
+        self.target = target
+        self.res = []
+
+        cur_comb = [] # Not Global
+        start_idx = 0
+        
+        self.backtrack(cur_comb, start_idx)
+        
+        return self.res
+    
+    def backtrack(self, cur_comb, idx):
+        # Base Cases
+        if self.target == 0:
+            self.res.append(cur_comb[::])
+            return 
+        if self.target < 0:
+            return
+        
+        for i in range(idx, self.n):
+            # Take
+            cur_comb.append(self.candidates[i])
+            self.target = self.target - self.candidates[i]
+
+            # Recursion
+            self.backtrack(cur_comb, i)
+
+            # Backtrack
+            cur_comb.pop()
+            self.target = self.target + self.candidates[i]
+
+# Final Thoughts:
+'''
+- Main Variation in 4 Methods is the Code structure, like how will you pass the parameters, how do you update them
+- Whether do you moodify the Target in Recursion Or use a Current_Sum (denoting sum of Current_Combination)
+- In Backtracking cases,, Modifying(Appending) the List into a List should include Shallow Copy in Python
+- In Method 3,, We used Default Constructor to Initialize the Variables which are needed 
+    - Even when we are writing Code for real-world applications,, OOPS is very important
+'''
