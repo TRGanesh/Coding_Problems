@@ -55,8 +55,19 @@ Process:
 		- T1.source = T2.destination Satisfies But.. T1.ID < T2.ID not
 */
 
--- Creation if Row Number For entire Table(Without any Partitions & Ordering)
+/*
+Creation if Row Number For entire Table(Without any Partitions & Ordering)
 select *,
 row_number() over() as id
 from src_dest_distance;
+*/
 
+-- Complete Query
+with row_numbered_table as
+	( select *, 
+	  row_number() over() as id
+      from src_dest_distance )
+select T1.*
+from row_numbered_table as T1
+join row_numbered_table as T2
+on T1.source = T2.destination and T1.id < T2.id;
