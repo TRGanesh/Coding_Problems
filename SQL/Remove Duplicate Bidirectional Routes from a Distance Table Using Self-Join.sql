@@ -52,7 +52,7 @@ Process:
 - If we take 1st 2 Records,, 
 	T1.ID(1) gets Matches with T2.ID(2) as 2 Conditions gets satisfies
     T1.ID(2) not Matches with T2.ID(1) as 
-		- T1.source = T2.destination Satisfies But.. T1.ID < T2.ID not
+		- T1.source = T2.destination Satisfies But.. T1.ID < T2.ID not satisfies
 */
 
 /*
