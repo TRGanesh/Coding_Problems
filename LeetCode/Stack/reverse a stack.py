@@ -27,3 +27,35 @@ def solve(stack):
         temp_stack.pop()
     
     return stack
+*********************************************************************************
+
+class Solution{
+public:
+    void insertAtBottom(stack<int>&stack, int ele)
+        {
+            if (stack.empty())
+            {
+                stack.push(ele);
+                return;
+            }
+            int topGuy = stack.top();
+            stack.pop();
+            
+            insertAtBottom(stack, ele);
+            stack.push(topGuy);
+        }
+    void solve(stack<int>&stack)
+        {
+            if(stack.empty()) return;
+            int topGuy = stack.top();
+            stack.pop();
+            
+            solve(stack);
+            
+            insertAtBottom(stack, topGuy);
+        }
+    void Reverse(stack<int> &stack)
+    {
+        solve(stack);
+    }
+};
