@@ -21,7 +21,7 @@ Explanation: Rob house 1 (money = 2), rob house 3 (money = 9) and rob house 5 (m
 Total amount you can rob = 2 + 9 + 1 = 12.
 '''
 
-
+# Method 1: Not Correct
 '''
 - There can be 2 Ways,, Alternatively
 - Idea failed for [2,1,1,2]
@@ -58,7 +58,7 @@ class Solution:
         return max(ans1, ans2)
 
 # --------------------------------------------------------------------
-
+# Method 2: Recursion & Memo
 '''
 Why DP:
 - There are Options for each House(Either can Rob/Not Rob)
@@ -94,3 +94,36 @@ class Solution:
         memo = {}
 
         return recur(0)
+# --------------------------------------------------------------------
+# Method 3: DP - Top-Down
+'''
+- Let's Try Exact DP
+- There will be a DP Array,, Okay What will be it's Size n or (n+1) ??
+    - Ans) We need one Entry for 0,, dp[0],, So n+1
+- Then what dp[i] denotes ??
+    - Ans) dp[i] denotes Max money theif stolen by looking upto i number of houses
+- Then have to Return dp[n] at the End
+
+Edge Case Thinking:
+- If there was only 1 house,, then it will be ans 
+'''
+class Solution:
+    def rob(self, nums: List[int]) -> int:
+        num_houses = len(nums)
+        if num_houses < 2:
+            return nums[0]
+
+        dp = [0] * (num_houses+1)
+
+        dp[1] = nums[0] # Remeber that Indexing for dp & nums has a diff of 1
+
+        for i in range(2, num_houses+1):
+            # Update States
+            
+            # current_house_amnt = nums[ i-1 ]
+            # previously_robbed_ans = dp[ i-2 ]
+            # ans_until = dp[ i-1 ]
+            
+            dp[i] = max( nums[ i-1 ] + dp[i-2], dp[i-1])
+
+        return dp[num_houses]
