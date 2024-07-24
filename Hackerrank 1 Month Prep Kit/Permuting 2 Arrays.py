@@ -2,9 +2,9 @@
 Link : https://www.hackerrank.com/challenges/one-month-preparation-kit-two-arrays/problem?isFullScreen=true&h_l=interview&playlist_slugs%5B%5D=preparation-kits&playlist_slugs%5B%5D=one-month-preparation-kit&playlist_slugs%5B%5D=one-month-week-one
 '''
 
-# Method 1: Executed for Some Cases,, Complete Naive Approach
+# Method 1: Recursion + BackTracking - Executed for Some Cases,, Complete Naive Approach
 def twoArrays(k, A, B):
-    # Let's generate all Permutations
+    # Let's generate all Permutations - using Swapping
     def getAllPermuations(a, idx, all_perms):
         if idx >= len(a):
             all_perms.append(a[::])
@@ -45,5 +45,25 @@ def twoArrays(k, A, B):
     
     return "NO"
 # ------------------------------------------------------------------------------
-
+# Method 2: Sorting - Pairing
+'''
+- Sort 1 Arr in Ascending Order
+- Sort other Arr in Descending Order
+- Because the sum > k condition should be satisfied with all pairs,,soo we need to change the order such that
+    - Sum of those 2 Elements will become Maximum
+'''
+def twoArrays(k, a, b):
+    n = len(a)
+    a.sort()
+    b.sort(reverse=True)
+    
+    is_found = True
+    for i in range(n):
+        if a[i] + b[i] < k:
+            is_found = False
+            break
+    if is_found == True:
+        return 'YES'
+    else:
+        return 'NO'
 
