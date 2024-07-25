@@ -39,3 +39,8 @@ def flippingMatrix(matrix):
             ans += max(cur_ele, complement_row_ele, complement_col_ele,other_ele)
             print('maxi ',max(cur_ele, complement_row_ele, complement_col_ele,other_ele))
     return ans
+
+'''
+- 1st Thought is to Store the Maxi's for Row & Col,, and wanted to Compare the guys --> Wrong
+- 2nd Thought is Comparing for 4 Quadrants
+'''
