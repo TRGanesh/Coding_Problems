@@ -16,21 +16,31 @@ Output: ["the","is","sunny","day"]
 Explanation: "the", "is", "sunny" and "day" are the four most frequent words, with the number of occurrence being 4, 3, 2 and 1 respectively.
 '''
 
+# Method 1 : Use Dictionary & Lambda# Using Dict & Lambda  
 class Solution:
     def topKFrequent(self, words: List[str], k: int) -> List[str]:
         d = Counter(words)
-        '''    
+        
         - Now the Map is created
         - Main thing is to Sort based on Freq(Higher to Lower) & 
-            - Have to Maintain the Alphabetical Order(Lower to Higher)
+             - Have to Maintain the Alphabetical Order(Lower to Higher)
         - Soo,, to Sort based on 2 Things,, we need to pass a Tuple in Lambda
         - Also,, We can't use 2 different values for "reverse" parameter like 
-             key = lambda key: ( d[key], key ) 
-             reverse = (True, False) 
+                 key = lambda key: ( d[key], key ) 
+                 reverse = (True, False) 
         - We want to Sort based on Higher Freq 1st & Lower Word 1st
         - For that,, as same as Heap Syntax,, we are using "Negative Value" --> - d[key]
-        '''
-        keys_sorted = sorted(d.keys(), key = lambda key:( -d[key], key ), reverse=True)
+        
+        # Worked
+        # keys_sorted = sorted(d.keys(), key = lambda key:( -d[key], key ), reverse=True)
+        # return keys_sorted[::-1][:k]
 
-        return keys_sorted[::-1][:k]
-
+        keys_sorted = sorted(d.keys(), key = lambda key:( -d[key], key ))
+        return keys_sorted[:k]
+# -------------------------------------------------------------------
+'''
+Other Methods can be 
+- We can use Heap or Pair of List
+- Pair of List --> TC : O(n logn)
+- Heap --> TC : O(n logk)
+'''
