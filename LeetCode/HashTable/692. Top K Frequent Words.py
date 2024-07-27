@@ -69,6 +69,14 @@ class Solution:
                 elif pair1[0] > pair2[0]:
                     return 1
 
+        ''' Not Working
+        def comparator(pair1, pair2):
+            if pair1[1] == pair2[1]:
+                return pair1[0] < pair2[0]
+            else:
+                return pair1[1] > pair2[1]'
+        '''
+
         a = sorted(key_val, key = cmp_to_key(comparator))[:k]
         b = []
         for key, val in a:
