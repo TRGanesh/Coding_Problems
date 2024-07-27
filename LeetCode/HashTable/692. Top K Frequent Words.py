@@ -44,3 +44,34 @@ Other Methods can be
 - Pair of List --> TC : O(n logn)
 - Heap --> TC : O(n logk)
 '''
+from functools import cmp_to_key
+# Using Comparator
+class Solution:
+    def topKFrequent(self, words: List[str], k: int) -> List[str]: 
+        d = Counter(words)  
+
+        key_val = []
+        for key, val in d.items():
+            key_val.append( [key, val] )
+        
+        def comparator(pair1, pair2):
+            # Freq Comparision
+            if pair1[1] > pair2[1]:
+                return -1 # Means True
+            elif pair1[1] < pair2[1]:
+                return 1 # Means Pair2 Comes 1st 
+            elif pair1[1] == pair2[1]:
+                # Compare Keys/Words
+                # return pair1[0] < pair2[0]
+                
+                if pair1[0] < pair2[0]:
+                    return -1
+                elif pair1[0] > pair2[0]:
+                    return 1
+
+        a = sorted(key_val, key = cmp_to_key(comparator))[:k]
+        b = []
+        for key, val in a:
+            b.append(key)
+
+        return b
