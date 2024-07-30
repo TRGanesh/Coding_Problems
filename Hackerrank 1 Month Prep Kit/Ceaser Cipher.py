@@ -47,3 +47,24 @@ def caesarCipher(s, k):
     
     # print(ans)
     return "".join(ans)
+
+# -------------------------------------------------------
+# Method 2: Function 
+def caesarCipher(s, k):
+    def shift_char(cur_char, base_ascii):
+        new_base_ascii = ((ord(cur_char) - base_ascii) + k) % 26
+        new_ascii = new_base_ascii + base_ascii
+        return chr(new_ascii)
+        
+    ans = []
+    for char in s:
+        if "a" <= char <= "z":
+            new_char = shift_char( char, 97 )
+            ans.append(new_char)
+        elif "A" <= char <= "Z":
+            new_char = shift_char( char, 65 )
+            ans.append(new_char)
+        else:
+            ans.append(char)
+    
+    return ''.join(ans)
